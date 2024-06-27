@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Доска</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f0f0f0;
+            padding: 20px;
+			max-width: 30%; /* Максимальная ширина составляет 30% от ширины экрана */
+            min-width: 10%; /* Минимальная ширина, чтобы sidebar не исчезал полностью */
+            resize: horizontal; /* Позволяет изменять размер */
+            overflow: hidden; /* Добавляет прокрутку, если содержимое не помещается - auto; */
+            position: relative; /* Для корректной работы handle */
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
+		.sidebar ul {
+			list-style-type: none;
+			padding-left: 0;
+		}
+
+		.sidebar span {
+			font-weight: bold; /* Выделяем главные пункты меню жирным */
+			padding: 15px 0; /* Увеличиваем расстояние между пунктами меню */
+			display: block; /* Чтобы занимали всю ширину и выравнивались */
+		}
+
+		.sidebar ul li ul {
+			padding-left: 20px; /* Отступ для подменю */
+		}
+
+		.sidebar ul li ul li {
+			padding: 5px 0; /* Отступ для подпунктов */
+		}
+
+        /*!* Псевдоэлемент для "ручки" *!*/
+        /*.sidebar::after {*/
+        /*    content: ''; !* Псевдоэлементы требуют свойства content *!*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    right: -5px; !* Расположение "ручки" за пределами сайдбара *!*/
+        /*    width: 10px; !* Ширина "ручки" *!*/
+        /*    height: 100%; !* Высота "ручки" *!*/
+        /*    cursor: ew-resize; !* Курсор в виде стрелок для горизонтального растягивания *!*/
+        /*    background-color: #ccc; !* Цвет "ручки" *!*/
+        /*    border-radius: 5px; !* Скругление углов "ручки" *!*/
+        /*}*/
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Боковое меню -->
+        <div class="sidebar"></div>
+        <!--   Основной контент   -->
+        <div class="content"></div>
+    </div>
+    <script id="main">
+		async function loadMenu() {
+			const response = await fetch('/menu');
+			const menuHtml = await response.text();
+			document.querySelector('.sidebar').innerHTML = menuHtml;
+		}
+
+		async function loadContent(url) {
+			const response = await fetch(url);
+			if (!response.ok) {
+				console.error('Ошибка при загрузке контента:', response.statusText);
+				return;
+			}
+			const contentHtml = await response.text();
+			const contentDiv = document.querySelector('.content');
+			contentDiv.innerHTML = contentHtml;
+		}
+
+        async function loadScript(templates) {
+
+            //новый вариант преобразования роута /xxx/yy , в файл имени скрипта xxx_yy
+            parts = templates.split('/');
+            parts.splice(2, 0, 'js');
+            parts = parts.join('/');
+            const url = `${parts}`;
+
+            // Удаление всех предыдущих скриптов, кроме главного
+            document.querySelectorAll('script:not(#main)').forEach(script => {
+                script.remove();
+            });
+
+          try {
+            const response = await fetch(url); // Запрос JavaScript-файла
+            if (!response.ok) {
+              // Если сервер вернул HTTP-статус ошибки, выбросить исключение
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const scriptContent = await response.text(); // Получение текста скрипта
+            const script = document.createElement('script'); // Создание нового элемента скрипта
+            script.textContent = scriptContent; // Добавление текста скрипта к элементу
+            document.body.appendChild(script); // Добавление скрипта к документу
+          } catch (error) {
+            console.error('Could not load script:', error);
+          }
+        }
+
+
+		document.addEventListener('DOMContentLoaded',
+            function () {
+                loadMenu(); // меню
+                loadContent('/welcome'); // приветствие
+
+                // обработка клика по пункту меню
+                document.querySelector('.sidebar').addEventListener('click', function (event) {
+                    if (event.target.matches('[data-content]')) {
+                        event.preventDefault();
+                        const url = event.target.getAttribute('data-content');
+                        loadContent(url);
+                        loadScript(url)
+                    }
+                });
+
+                //             // Работа с "ручкой"
+                // const sidebar = document.querySelector('.sidebar');
+                // let isResizing = false;
+                //
+                // // Перетаскивание ручки и изменение ширины сайдбара
+                // sidebar.addEventListener('mousedown', function (event) {
+                //     // Убедитесь, что нажатие было именно на "ручке"
+                //     if (event.offsetX > sidebar.offsetWidth - 10) {
+                //         isResizing = true;
+                //         document.addEventListener('mousemove', handleMouseMove);
+                //         document.addEventListener('mouseup', stopResize);
+                //     }
+                // });
+                //
+                // function handleMouseMove(e) {
+                //     if (!isResizing) return;
+                //     let newWidth = e.clientX - sidebar.getBoundingClientRect().left;
+                //     if (newWidth > 50) { // Минимальная ширина сайдбара
+                //         sidebar.style.width = newWidth + 'px';
+                //     }
+                // }
+                //
+                // function stopResize(e) {
+                //     isResizing = false;
+                //     document.removeEventListener('mousemove', handleMouseMove);
+                //     document.removeEventListener('mouseup', stopResize);
+                // }
+
+            }
+        );
+    </script>
+</body>
+</html>

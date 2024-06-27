@@ -1,0 +1,17 @@
+ <ul>
+    {% for item in menu %}
+        <li>
+            <span>{{ item.title }}</span>
+            {% if item.subitems %}
+                <ul>
+                    {% for subitem in item.subitems %}
+                        <li>
+                            <div data-content="{{ subitem.url }}" style="cursor: pointer;">{{ subitem.title }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+

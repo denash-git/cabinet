@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Уменьшенная тень для более плоского вида */
+            width: 340px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase; /* Заголовок большими буквами */
+            letter-spacing: 1px; /* Расстояние между буквами */
+        }
+        form {
+            
+            border: none; /* Убрать границы */
+            padding: 20px; 
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #666;
+            text-align: left;
+            margin-bottom: 5px; /* Немного пространства перед input */
+        }
+		input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px; /* Пространство после input */
+            border: 1px solid #ced4da; /* Стилизованная граница, как было раньше */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Стили для плейсхолдера */
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ced4da;
+            opacity: 1; /* Плейсхолдер должен быть полностью видимым */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #ced4da;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #ced4da;
+        }
+        input[type="submit"] {
+            width: calc(100% - 20px);
+            padding: 15px 0;
+            margin-top: 10px;
+            border: none; /* Убираем рамку */
+            color: #fff;
+            background-color: #4CAF50; /* Зеленый цвет кнопки */
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        input[type="submit"]:hover,
+        input[type="submit"]:focus {
+            background-color: #43A047;  
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Вход</h1>
+        <form action="/token" method="post">
+            <input type="text" id="username" name="username" placeholder="Логин" required>
+            <input type="password" id="password" name="password" placeholder="Пароль" required>
+            <input type="submit" value="Войти">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Генерация учеток</title>
+  <style>
+    .content {
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2, h4 {
+      text-align: center;
+      margin-bottom: 2px;
+    }
+
+    .checkbox {
+      display: flex;
+      margin-bottom: 15px;
+      margin-top: 60px;
+      margin-left: -195px;
+    }
+
+    .input-group input[type="text"] {
+      width: 300px;
+      padding: 5px;
+      margin-left: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    button:hover {
+    background-color: #45a049;
+    }
+
+    button:active {
+      transform: scale(0.9);
+    }
+
+    #result {
+        margin: 30px 0 30px 20px;
+        width: 400px;
+    }
+
+    .row {
+        display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .row p {
+      font-weight: bold;
+      margin: 0;
+      width: 100px;
+    }
+
+    .row span {
+      width: 250px;
+      margin: 0 20px;
+    }
+
+    .row input {
+
+        width: 250px;
+        margin: 0 15px;
+        border: none;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+    }
+
+  </style>
+</head>
+<body>
+  <h2>Электронные подписи</h2>
+  <h4>Транслитерация ICAO Doc 9303</h4>
+
+  <div class="checkbox">
+    <input type="checkbox" id="ext" onchange="toggleLabel()">
+    <span id="nameLabel" style="margin-left: 10px;">Фамилия Имя Отчество</span>
+  </div>
+
+  <div class="input-group">
+    <button onclick="clearInputField()" ">-</button>
+    <input type="text" id="fullName" required>
+    <button onclick="transliterate()">Сгенерировать</button>
+  </div>
+
+  <div id="result">
+      <div class="row">
+          <p>Фамилия:</p><span id="surname"></span><button onclick="copyToClipboard('surname')">📄</button>
+      </div>
+      <div class="row">
+          <p>Имя:</p><span id="name"></span><button onclick="copyToClipboard('name')">📄</button>
+      </div>
+      <div class="row">
+          <p>Отчество:</p><span id="patronymic"></span><button onclick="copyToClipboard('patronymic')">📄</button>
+      </div>
+      <div class="row">
+          <p>Login:</p><span id="login"></span><button onclick="copyToClipboard('login')">📄</button>
+      </div>
+      <div class="row">
+          <p>Пароль:</p>
+          <input type="text" id="password">
+          <button onclick="copyToClipboard('password')">📄</button>
+      </div>
+  </div>
+
+  <div class="buttons">
+      <button  id="copyFIOButton" onclick="copyToClipboard('copyFIOButton')">Фамилия Имя Отчество </button>
+  </div>
+  <br>
+  <div class="buttons">
+      <button  id="copyIOFButton" onclick="copyToClipboard('copyIOFButton')">Имя Отчество Фамилия</button>
+  </div>
+
+</body>
+</html>

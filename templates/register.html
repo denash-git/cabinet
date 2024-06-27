@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Уменьшенная тень для более плоского вида */
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            border-radius: 8px; /* Немного скругленные углы */
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase; /* Заголовок большими буквами */
+            letter-spacing: 1px; /* Расстояние между буквами */
+        }
+        form {
+            border: none; /* Убрать границы */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #666;
+            text-align: left;
+            margin-bottom: 5px; /* Немного пространства перед input */
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px; /* Пространство после input */
+            border: 1px solid #ced4da; /* Стилизованная граница */
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        /* Стили для плейсхолдера */
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ced4da;
+            opacity: 1; /* Плейсхолдер должен быть полностью видимым */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #ced4da;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #ced4da;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 15px 0;
+            margin-top: 10px;
+            border: none; /* Убираем рамку */
+            color: #fff;
+            background-color: #4CAF50; /* Зеленый цвет кнопки */
+            cursor: pointer;
+            font-size: 16px; /* Возвращенный размер шрифта */
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px; /* Скругленные углы */
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        input[type="submit"]:hover,
+        input[type="submit"]:focus {
+            background-color: #43A047;
+            transform: translateY(-2px); /* Легкий подъем при наведении */
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Регистрация</h1>
+        <form id="registerForm">
+            <input type="text" id="username" name="username" placeholder="Логин" required>
+            <input type="password" id="password" name="password" placeholder="Пароль" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Подтвердите пароль" required>
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+        <div id="errorContainer" class="error-message"></div> <!-- Добавленный блок для вывода ошибок -->
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Предотвращаем обычную отправку формы
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorContainer = document.getElementById('errorContainer'); // Контейнер для вывода ошибок
+
+            // Очищаем предыдущие ошибки
+            errorContainer.textContent = '';
+
+            if (password !== confirmPassword) {
+                errorContainer.textContent = 'Пароли не совпадают.';
+                return;
+            }
+
+            const data = { username, password };
+
+            try {
+                const response = await fetch('/reg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Ошибка при регистрации.');
+                }
+
+                // Если ответ успешный, перенаправляем на страницу /board
+                window.location.href = '/auth';
+            } catch (error) {
+                console.error('Error:', error);
+                errorContainer.textContent = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

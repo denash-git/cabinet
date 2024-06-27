@@ -1,0 +1,80 @@
+[
+    {
+        "title": "Пункт меню 1",
+        "role": "help",
+        "subitems": [
+            {
+                "title": "подпункт 1",
+                "url": "/a/id11"
+            },
+            {
+                "title": "подпункт 2",
+                "url": "/a/id12"
+            }
+        ]
+    },
+    {
+        "title": "Пункт меню 2",
+        "role": "user",
+        "subitems": [
+            {
+                "title": "подпункт 1",
+                "url": "/b/id21"
+            },
+            {
+                "title": "подпункт 2",
+                "url": "/b/id32"
+            },
+            {
+                "title": "подпункт 3",
+                "url": "/b/id33"
+            }
+        ]
+    },
+    {
+        "title": "Пункт меню 3",
+        "role": "user",
+        "subitems": [
+            {
+                "title": "подпункт 1",
+                "url": "/c/id31"
+            },
+            {
+                "title": "подпункт 2",
+                "url": "/c/id32"
+            }
+        ]
+    },
+    {
+        "title": "Пункт меню 4",
+        "role": "help",
+        "subitems": [
+            {
+                "title": "подпункт 1",
+                "url": "/d/id41"
+            },
+            {
+                "title": "подпункт 2",
+                "url": "/d/id42"
+            }
+        ]
+    },
+    {
+        "title": "Настройки",
+        "role": "root",
+        "subitems": [
+            {
+                "title": "новый user",
+                "url": "/man/userNew"
+            },
+            {
+                "title": "все users",
+                "url": "/man/userAll"
+            },
+            {
+                "title": "меню reload",
+                "url": "/man/menuReload"
+            }
+        ]
+    }
+]

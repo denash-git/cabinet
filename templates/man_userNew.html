@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New User</title>
+    <style>
+        .content {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*background-color: #f5f5f5;*/
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 300px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #43A047;
+        }
+    </style>
+</head>
+<body>
+  <div>
+    <h1>Новый User</h1>
+    <form id="addUserForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="role">Role:</label>
+        <select name="role" id="role">
+            <option value="user">User</option>
+            <option value="help">Help</option>
+            <option value="admin">Admin</option>
+        </select><br><br>
+
+        <button type="button" id="submit">Добавить</button>
+    </form>
+  </div>
+</body>
+</html>
